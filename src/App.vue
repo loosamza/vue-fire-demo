@@ -1,18 +1,8 @@
 <template>
   <v-app>
-    <v-navigation-drawer
-      fixed
-      :mini-variant="miniVariant"
-      :clipped="clipped"
-      v-model="drawer"
-      app
-    >
+    <v-navigation-drawer fixed :mini-variant="miniVariant" :clipped="clipped" v-model="drawer" app>
       <v-list>
-        <v-list-tile 
-          value="true"
-          v-for="(item, i) in items"
-          :key="i"
-        >
+        <v-list-tile value="true" v-for="(item, i) in items" :key="i">
           <v-list-tile-action>
             <v-icon v-html="item.icon"></v-icon>
           </v-list-tile-action>
@@ -35,30 +25,24 @@
       </v-btn>
       <v-toolbar-title v-text="appName"></v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn icon @click.stop="rightDrawer = !rightDrawer">
-        <v-icon>menu</v-icon>
+      <v-btn flat @click="userSignOut" v-if="isAuthenticated">
+        <v-icon left>exit_to_app</v-icon>
+        Sign Out
+      </v-btn>
+      <v-btn flat v-for="(item, i) in toolbarItems" :key="item.i" :to="item.link">
+        <v-icon left>{{ item.icon }}</v-icon>
+        {{ item.title }}
       </v-btn>
     </v-toolbar>
+
+
     <v-content>
       <v-container fluid>
         <router-view></router-view>
       </v-container>
     </v-content>
-    <v-navigation-drawer
-      temporary
-      :right="right"
-      v-model="rightDrawer"
-      fixed
-    >
-      <v-list>
-        <v-list-tile @click.native="right = !right">
-          <v-list-tile-action>
-            <v-icon>compare_arrows</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-title>Switch drawer (click me)</v-list-tile-title>
-        </v-list-tile>
-      </v-list>
-    </v-navigation-drawer>
+
+
     <v-footer :fixed="fixed" app>
       <span>&copy; 2017</span>
     </v-footer>
@@ -67,10 +51,10 @@
 
 <script>
   export default {
-    data () {
+    data() {
       return {
         clipped: false,
-        drawer: true,
+        drawer: false,
         fixed: false,
         items: [{
           icon: 'bubble_chart',
@@ -78,13 +62,36 @@
         }],
         miniVariant: false,
         right: true,
-        rightDrawer: false,
-        title: 'Vuetify.js'
+        rightDrawer: false
       }
-      }, computed: {
+    },
+    computed: {
       appName() {
         return this.$store.getters.appTitle
+      },
+      isAuthenticated() {
+        return (
+          this.$store.getters.getUser !== null &&
+          this.$store.getters.getUser !== undefined
+        );
+      },
+      toolbarItems() {
+        return this.isAuthenticated ? [] : [{
+          icon: "face",
+          title: "Sign Up",
+          link: "/signup"
+        }, {
+          icon: "lock_open",
+          title: "Sign In",
+          link: "/login"
+        }];
+      }
+    },
+    methods: {
+      userSignOut() {
+        this.$store.dispatch("userSignOut");
       }
     }
   }
+
 </script>
