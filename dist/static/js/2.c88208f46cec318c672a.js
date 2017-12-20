@@ -1,0 +1,2 @@
+webpackJsonp([2],{X4Uw:function(e,t,r){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var n={},c=function(){var e=this,t=e.$createElement,r=e._self._c||t;return r("v-card",[r("v-card-media",{attrs:{src:"http://i0.kym-cdn.com/photos/images/facebook/000/000/578/1234931504682.jpg",height:"600px"}})],1)},a=[],s={render:c,staticRenderFns:a},l=s,o=r("VU/8"),i=o(n,l,!1,null,null,null);t.default=i.exports}});
+//# sourceMappingURL=2.c88208f46cec318c672a.js.map
